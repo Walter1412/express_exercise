@@ -7,7 +7,11 @@ router.all('/', function(req, res, next) {
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.json({12:123});
+  // return json
+  // res.json({12:'12dsfasf3'});
+  console.dir(res.headersSent) // false
+  res.send('OK')
+  console.dir(res.headersSent) // true
 });
 
 router.post('/', function(req, res, next) {

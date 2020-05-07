@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  form(action="/file" method="post")
+    input(type="text" name="userName")
+    input(type="text" name="userPassword")
+    button(type="submit") submit
