@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path')
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  console.dir(req.query)
-  res.redirect('/')
+router.get('/read_single', function(req, res, next) {
+  console.log('path :>> ', path.join(__filename,'../public/assets/images/keroro.jpeg'));
+  res.sendFile(path.join(__dirname,'../public/assets/images/keroro.jpeg'))
 });
 
-router.post('/', function(req, res, next) {
+router.post('/write_single', function(req, res, next) {
   console.dir(req.body)
 });
 
