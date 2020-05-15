@@ -13,7 +13,6 @@ var memberList = [
 
 router.post('/', upload.array(), function(req, res, next) {
   const { body, query } = req
-  // console.log('req :>> ', res)
   console.log('body :>> ', body)
   console.log('query :>> ', query)
   res.send('OK')
