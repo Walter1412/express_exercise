@@ -1,9 +1,0 @@
-{
-  "product":[
-  {"id":1,"name": "Walter", "gender":0, "age": 18, "hobbies":["sleep","play game"]},
-  {"id":1,"name": "Walter", "gender":0, "age": 18, "hobbies":["sleep","play game"]},
-  {"id":1,"name": "Walter", "gender":0, "age": 18, "hobbies":["sleep","play game"]},
-  {"id":1,"name": "Walter", "gender":0, "age": 18, "hobbies":["sleep","play game"]},
-  {"id":1,"name": "Walter", "gender":0, "age": 18, "hobbies":["sleep","play game"]},
-  {"id":1,"name": "Walter", "gender":0, "age": 18, "hobbies":["sleep","play game"]}]
-}

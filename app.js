@@ -5,7 +5,7 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var stylus = require('stylus')
-var bodyParser = require('body-parser');
+// var bodyParser = require('body-parser');
 
 // Routes
 var indexRouter = require('./routes/index')
@@ -16,9 +16,9 @@ var fileRouter = require('./routes/file')
 
 var app = express()
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded());
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
