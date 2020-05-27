@@ -8,6 +8,6 @@ mongoose
     useUnifiedTopology: true
   })
   .then(() => console.log(chalk.bgGreenBright('MongoDB Connected')))
-  .catch(err => console.log(chalk.red(err)))
+  .catch(err => console.log(chalk.bgRedBright(err)))
 
 module.exports = mongoose
