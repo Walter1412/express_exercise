@@ -6,7 +6,7 @@ var upload = multer()
 var { cloneDeep, isNull } = require('lodash')
 
 // Model
-var userModel = require('../models/user')
+var UserModel = require('../models/user')
 
 router.get('/', function(req, res, next) {
   UserData.find().then(function(doc) {
@@ -17,15 +17,30 @@ router.get('/', function(req, res, next) {
 router.post('/', upload.array(), function(req, res, next) {
   const { body, query } = req
   const item = cloneDeep(body)
-  const userData = new userModel(item)
+  const newUserData = new UserModel(item)
 
-  userModel.findOne({ email: item.email }, 'name').exec(function(err, user) {
-    console.log('user :>> ', user)
-  })
+  try {
+    UserModel.findOne({ email: item.email }, 'name').exec(function(
+      error,
+      user
+    ) {
+      if (error) {
+        throw err
+      }
+      if (user) {
+        res.send('信箱已註冊過')
+      } else {
+        newUserData.save()
+        res.send('新增成功')
+      }
+    })
+  } catch (error) {
+    console.log(chalk.bgRedBright(error))
+  }
+})
 
-  // userData.save()
-
-  res.send('OK')
+router.put('/', function(req, res, next) {
+  res.send('respond with a put')
 })
 
 router.delete('/', upload.array(), function(req, res, next) {

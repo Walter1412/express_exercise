@@ -2,6 +2,8 @@ var mongoose = require('mongoose')
 var chalk = require('chalk')
 var url = 'mongodb+srv://walter:12345@cluster0-ibsha.mongodb.net/MyTest'
 
+global.chalk = chalk
+
 mongoose
   .connect(url, {
     useNewUrlParser: true,
