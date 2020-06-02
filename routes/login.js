@@ -39,14 +39,16 @@ router.post('/', upload.array(), function(req, res, next) {
   }
 })
 
-router.put('/', function(req, res, next) {
+router.put('/', upload.array(), function(req, res, next) {
   res.send('respond with a put')
 })
 
-router.delete('/', upload.array(), function(req, res, next) {
+router.delete('/', function(req, res, next) {
   const { body, query } = req
   console.log('body :>> ', body)
   console.log('query :>> ', query)
+
+  // UserModel.findOneAndRemove({})
 
   res.send('OK')
 })
