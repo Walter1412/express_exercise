@@ -4,13 +4,17 @@ var router = express.Router()
 var multer = require('multer')
 var upload = multer()
 var { cloneDeep, isNull } = require('lodash')
+import Users from './classes/users'
+console.log('Users :>> ', Users);
 
 // Model
 var UserModel = require('../models/user')
 
-router.get('/', function(req, res, next) {
+// get user item
+router.get('/item', async (req, res, next) => {
   const { query } = req
   const { email } = query
+
   UserModel.findOne({ email }).exec(function(err, user) {
     if (user) {
       res.send(user)
@@ -19,14 +23,25 @@ router.get('/', function(req, res, next) {
     }
   })
 })
-
-router.get('/all', function(req, res, next) {
-  UserModel.find({ email }).exec(function(err, user) {
-    console.log('user :>> ', user)
-    res.send(user)
+// get user list
+router.get('/list', function(req, res, next) {
+  UserModel.find(null, '-_id name email').exec(function(err, users) {
+    try {
+      if (err) {
+        throw err
+      }
+      if (users) {
+        res.send(users)
+      } else {
+        res.send([])
+      }
+    } catch (error) {
+      console.log(chalk.bgRedBright(error))
+    }
   })
 })
 
+// 新增user資料透過formdata format
 router.post('/', upload.array(), function(req, res, next) {
   const { body, query } = req
   const item = cloneDeep(body)
@@ -38,13 +53,16 @@ router.post('/', upload.array(), function(req, res, next) {
       user
     ) {
       if (error) {
-        throw err
+        throw error
       }
       if (user) {
         res.send('信箱已註冊過')
       } else {
-        newUserData.save()
-        res.send('新增成功')
+        newUserData.save(err => {
+          console.log('err :>> ', chalk.bgRedBright(err))
+          if (err) throw err
+          res.send('新增成功')
+        })
       }
     })
   } catch (error) {
@@ -52,10 +70,10 @@ router.post('/', upload.array(), function(req, res, next) {
   }
 })
 
+// 修改user資料
 router.put('/', function(req, res, next) {
   const { query } = req
   const { email } = query
-
   UserModel.findOne({ email }, function(err, user) {
     user.isDelete = true
     user.save()
@@ -63,12 +81,11 @@ router.put('/', function(req, res, next) {
   })
 })
 
+// 刪除user資料
 router.delete('/', function(req, res, next) {
   const { query } = req
   const { email } = query
-
   UserModel.findOneAndDelete({ email }, function(err, user) {
-    console.log('user :>> ', user)
     res.send('OK')
   })
 })
