@@ -5,23 +5,22 @@ var multer = require('multer')
 var upload = multer()
 var { cloneDeep, isNull } = require('lodash')
 import Users from './classes/users'
-console.log('Users :>> ', Users);
 
 // Model
 var UserModel = require('../models/user')
+
+const users = new Users()
 
 // get user item
 router.get('/item', async (req, res, next) => {
   const { query } = req
   const { email } = query
-
-  UserModel.findOne({ email }).exec(function(err, user) {
-    if (user) {
-      res.send(user)
-    } else {
-      res.send('無此信箱')
-    }
-  })
+  try {
+    const item = await users.getItem(email)
+    res.send('OK')
+  } catch (error) {
+    console.log('error :>> ', chalk.bgRedBright(error))
+  }
 })
 // get user list
 router.get('/list', function(req, res, next) {
