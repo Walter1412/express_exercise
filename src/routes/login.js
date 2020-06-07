@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   // return json
   // res.json({12:'12dsfasf3'});
   console.dir(res.headersSent) // false
@@ -10,15 +10,15 @@ router.get('/', function(req, res, next) {
   console.dir(res.headersSent) // true
 })
 
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
   res.send('respond with a post')
 })
 
-router.put('/', function(req, res, next) {
+router.put('/', function (req, res, next) {
   res.send('respond with a put')
 })
 
-router.delete('/', function(req, res, next) {
+router.delete('/', function (req, res, next) {
   res.send('respond with a delete')
 })
 

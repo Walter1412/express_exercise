@@ -22,16 +22,15 @@ const UserSchema = new Schema(
     avatar: {
       type: String
     },
-    date: {
-      type: Date,
-      default: Date.now
-    },
     isDelete: {
       type: Boolean,
       default: false
     }
   },
-  { collection: 'users' }
+  {
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
+    collection: 'users'
+  }
 )
 
 module.exports = UserSchema
