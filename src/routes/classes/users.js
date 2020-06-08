@@ -1,4 +1,5 @@
 import UserModel from '../../models/user'
+
 class Users {
   constructor() {
     this.UserModel = UserModel
@@ -35,11 +36,15 @@ class Users {
         if (error) reject(error)
         if (user) resolve(user)
       })
-      // this.userData = new this.UserModel(newUser)
-      // this.userData.save((error) => {
-      //   if (error) reject(error)
-      //   resolve('Success')
-      // })
+    })
+  }
+  updateUser(updateUser) {
+    return new Promise((resolve, reject) => {
+      this.UserModel.findOne({ email }, function(err, user) {
+        user.isDelete = true
+        user.save()
+        res.send('OK')
+      })
     })
   }
 }

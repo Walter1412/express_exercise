@@ -25,7 +25,7 @@ const UserSchema = new Schema(
     isDelete: {
       type: Boolean,
       default: false
-    }
+    },
   },
   {
     timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },

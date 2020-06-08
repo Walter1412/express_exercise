@@ -42,55 +42,26 @@ router.post('/', upload.array(), async (req, res, next) => {
   const { body, query } = req
   const item = cloneDeep(body)
   const { email } = item
-  console.log('item', item)
+
   try {
-    const test = await users.getItem({ email }, '_id')
-    if (test) {
+    const repeatUser = await users.getItem({ email }, '_id')
+    if (repeatUser) {
       res.send('信箱已註冊過')
     } else {
-      const test2 = await users.createUser(item)
-      console.log('test2', test2)
+      const createUser = await users.createUser(item)
+      console.log('createUser', createUser)
+      res.send('新增成功')
     }
-
-    // if (user) {
-    //   res.send('信箱已註冊過')
-    // } else {
-    //   const test = await users.createUser(item)
-    //   console.log('test', test)
-    //   res.send(test)
-    // }
   } catch (error) {
     console.log(chalk.bgRedBright(error))
   }
-  // const newUserData = new UserModel(item)
-
-  // try {
-  //   UserModel.findOne({ email: item.email }, 'name').exec(function (
-  //     error,
-  //     user
-  //   ) {
-  //     if (error) {
-  //       throw error
-  //     }
-  //     if (user) {
-  //       res.send('信箱已註冊過')
-  //     } else {
-  //       newUserData.save((err) => {
-  //         if (err) throw err
-  //         res.send('新增成功')
-  //       })
-  //     }
-  //   })
-  // } catch (error) {
-  //   console.log(chalk.bgRedBright(error))
-  // }
 })
 
 // 修改user資料
-router.put('/', function (req, res, next) {
+router.put('/', function(req, res, next) {
   const { query } = req
   const { email } = query
-  UserModel.findOne({ email }, function (err, user) {
+  UserModel.findOne({ email }, function(err, user) {
     user.isDelete = true
     user.save()
     res.send('OK')
@@ -98,10 +69,10 @@ router.put('/', function (req, res, next) {
 })
 
 // 刪除user資料
-router.delete('/', function (req, res, next) {
+router.delete('/', function(req, res, next) {
   const { query } = req
   const { email } = query
-  UserModel.findOneAndDelete({ email }, function (err, user) {
+  UserModel.findOneAndDelete({ email }, function(err, user) {
     res.send('OK')
   })
 })
