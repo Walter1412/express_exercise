@@ -31,7 +31,7 @@ class Users {
   }
   createUser(newUser) {
     return new Promise((resolve, reject) => {
-      this.UserModel.create(newUser).exec((error, user) => {
+      this.UserModel.create(newUser, (error, user) => {
         if (error) reject(error)
         if (user) resolve(user)
       })

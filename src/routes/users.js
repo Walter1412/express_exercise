@@ -45,7 +45,13 @@ router.post('/', upload.array(), async (req, res, next) => {
   console.log('item', item)
   try {
     const test = await users.getItem({ email }, '_id')
-    console.log('test', test)
+    if (test) {
+      res.send('信箱已註冊過')
+    } else {
+      const test2 = await users.createUser(item)
+      console.log('test2', test2)
+    }
+
     // if (user) {
     //   res.send('信箱已註冊過')
     // } else {
