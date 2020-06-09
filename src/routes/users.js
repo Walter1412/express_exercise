@@ -3,7 +3,7 @@ var express = require('express')
 var router = express.Router()
 var multer = require('multer')
 var upload = multer()
-var { cloneDeep, isNull } = require('lodash')
+var { cloneDeep, omit } = require('lodash')
 import Users from './classes/users'
 
 // Model
@@ -58,21 +58,29 @@ router.post('/', upload.array(), async (req, res, next) => {
 })
 
 // 修改user資料
-router.put('/', function(req, res, next) {
-  const { query } = req
-  const { email } = query
-  UserModel.findOne({ email }, function(err, user) {
-    user.isDelete = true
-    user.save()
-    res.send('OK')
-  })
+router.put('/', upload.array(), async (req, res, next) => {
+  const { body } = req
+  const form = cloneDeep(body)
+  const { email } = form
+  const filter = {
+    email
+  }
+  const update = omit(form, ['email'])
+  try {
+    const updateUser = await users.updateUser(filter, update)
+    if(updateUser){
+      res.send('更新成功')
+    }
+  } catch (error) {
+    console.log(chalk.bgRedBright(error))
+  }
 })
 
 // 刪除user資料
-router.delete('/', function(req, res, next) {
+router.delete('/', function (req, res, next) {
   const { query } = req
   const { email } = query
-  UserModel.findOneAndDelete({ email }, function(err, user) {
+  UserModel.findOneAndDelete({ email }, function (err, user) {
     res.send('OK')
   })
 })

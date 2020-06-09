@@ -11,10 +11,7 @@ class Users {
         if (error) {
           reject(error)
         }
-        if (user) {
-          resolve(user)
-        }
-        resolve('無此信箱')
+        resolve(user)
       })
     })
   }
@@ -32,19 +29,23 @@ class Users {
   }
   createUser(newUser) {
     return new Promise((resolve, reject) => {
-      this.UserModel.create(newUser, (error, user) => {
+      this.UserModel.create(newUser, (error, doc) => {
         if (error) reject(error)
-        if (user) resolve(user)
+        resolve(doc)
       })
     })
   }
-  updateUser(updateUser) {
+  updateUser(filter = {}, update = {}) {
     return new Promise((resolve, reject) => {
-      this.UserModel.findOne({ email }, function(err, user) {
-        user.isDelete = true
-        user.save()
-        res.send('OK')
-      })
+      this.UserModel.findOneAndUpdate(
+        filter,
+        update,
+        { new: true, upsert: true },
+        (error, doc) => {
+          if (error) reject(error)
+          resolve(doc)
+        }
+      )
     })
   }
 }
