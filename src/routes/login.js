@@ -1,25 +1,24 @@
 var express = require('express')
 var router = express.Router()
+import Login from './classes/login'
+// Model
+var UserModel = require('../models/user')
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  // return json
-  // res.json({12:'12dsfasf3'});
-  console.dir(res.headersSent) // false
-  res.send('OK')
-  console.dir(res.headersSent) // true
-})
+const login = new Login(UserModel)
 
-router.post('/', function (req, res, next) {
-  res.send('respond with a post')
-})
-
-router.put('/', function (req, res, next) {
-  res.send('respond with a put')
-})
-
-router.delete('/', function (req, res, next) {
-  res.send('respond with a delete')
+/* POST */
+router.post('/', async (req, res, next) => {
+  const { body } = req
+  const { user, password } = body
+  const filter = {
+    email: user,
+    password
+  }
+  try {
+    const existUser = await login.getItem(filter)
+    console.log('existUser', existUser)
+    res.send({})
+  } catch (error) {}
 })
 
 module.exports = router

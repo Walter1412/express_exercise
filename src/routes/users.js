@@ -9,7 +9,7 @@ import Users from './classes/users'
 // Model
 var UserModel = require('../models/user')
 
-const users = new Users()
+const users = new Users(UserModel)
 
 router.use((req, res, next) => {
   console.log('Time:', Date.now())
@@ -48,7 +48,7 @@ router.post('/', upload.array(), async (req, res, next) => {
     if (repeatUser) {
       res.send('信箱已註冊過')
     } else {
-      const createUser = await users.createUser(item)
+      const createUser = await users.createItem(item)
       console.log('createUser', createUser)
       res.send('新增成功')
     }
@@ -67,8 +67,8 @@ router.put('/', upload.array(), async (req, res, next) => {
   }
   const update = omit(form, ['email'])
   try {
-    const updateUser = await users.updateUser(filter, update)
-    if(updateUser){
+    const updateUser = await users.updateItem(filter, update)
+    if (updateUser) {
       res.send('更新成功')
     }
   } catch (error) {
