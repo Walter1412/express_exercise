@@ -3,6 +3,7 @@ var express = require('express')
 var router = express.Router()
 var multer = require('multer')
 var upload = multer()
+import jwt from 'jsonwebtoken'
 var { cloneDeep, omit } = require('lodash')
 import Users from './classes/users'
 
@@ -20,6 +21,9 @@ router.use((req, res, next) => {
 router.get('/item', async (req, res, next) => {
   const { query } = req
   const { email } = query
+  const token = req.header('auth').replace('Bearer ', '')
+  const test = await jwt.verify(token, 'Test')
+  console.log('test :>> ', test);
   try {
     const usersItem = await users.getItem({ email }, '-_id firstName lastName')
     res.send(usersItem)
@@ -77,10 +81,10 @@ router.put('/', upload.array(), async (req, res, next) => {
 })
 
 // 刪除user資料
-router.delete('/', function (req, res, next) {
+router.delete('/', function(req, res, next) {
   const { query } = req
   const { email } = query
-  UserModel.findOneAndDelete({ email }, function (err, user) {
+  UserModel.findOneAndDelete({ email }, function(err, user) {
     res.send('OK')
   })
 })

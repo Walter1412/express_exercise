@@ -1,5 +1,6 @@
 var express = require('express')
 var router = express.Router()
+import jwt from 'jsonwebtoken'
 import Login from './classes/login'
 // Model
 var UserModel = require('../models/user')
@@ -7,6 +8,7 @@ var UserModel = require('../models/user')
 const login = new Login(UserModel)
 
 /* POST Json format */
+
 router.post('/', async (req, res, next) => {
   const { body } = req
   const { user, password } = body
@@ -16,13 +18,11 @@ router.post('/', async (req, res, next) => {
   }
   try {
     const existUser = await login.getItem(filter, '-_id email')
-    console.log('jwt :>> ', jwt)
-    const token = await jwt.sign({ existUser }, 'waltertest')
+    const token = await jwt.sign({ existUser }, 'Test')
     console.log('token :>> ', token)
-    res.send({})
+    res.send({ token:`Bearer ${token}` })
   } catch (error) {
-    console.log('error :>> ', chalk.bgRedBright(error))
-    res.send('error')
+    res.send(error)
   }
 })
 
