@@ -1,7 +1,7 @@
 class Auth {
   constructor() {
-    this.privateKey = 'hi'
-    this.publicKey = 'hello'
+    this.privateKey = 'privateKey'
+    this.publicKey = 'publicKey'
   }
   getPrivateKey() {
     return this.privateKey

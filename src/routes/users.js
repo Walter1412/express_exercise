@@ -3,7 +3,7 @@ var express = require('express')
 var router = express.Router()
 var multer = require('multer')
 var upload = multer()
-import jwt from 'jsonwebtoken'
+import jsonJWT from 'jsonwebtoken'
 var { cloneDeep, omit } = require('lodash')
 import Users from './classes/users'
 
@@ -21,9 +21,9 @@ router.use((req, res, next) => {
 router.get('/item', async (req, res, next) => {
   const { query } = req
   const { email } = query
-  const token = req.header('auth').replace('Bearer ', '')
-  const test = await jwt.verify(token, 'Test')
-  console.log('test :>> ', test);
+  const token = req.header('authorization').replace('Bearer ', '')
+  console.log('token :>> ', token)
+  const test = await jsonJWT.verify(token, 'Test')
   try {
     const usersItem = await users.getItem({ email }, '-_id firstName lastName')
     res.send(usersItem)
