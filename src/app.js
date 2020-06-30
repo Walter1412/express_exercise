@@ -31,14 +31,25 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(stylus.middleware(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'public')))
+// router middleware
+app.use(
+  expressJWT({ secret: 'Test', resultProperty: 'locals.user' }).unless({
+    path: ['/login']
+  }),
+  function(req, res, next) {
+    const { locals } = res
+    const { user } = locals
+    const { _doc } = user
+    console.log('doc :>> ', _doc)
+    next()
+  }
+)
 
 app.use('/', indexRouter)
 app.use('/login', loginRouter)
 app.use('/form', formRouter)
-app.use('/users', expressJWT({ secret: 'Test' }), usersRouter)
+app.use('/users', usersRouter)
 app.use('/file', fileRouter)
-
-//
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

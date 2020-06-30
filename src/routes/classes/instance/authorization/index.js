@@ -1,4 +1,4 @@
-class Auth {
+class Authorization {
   constructor() {
     this.privateKey = 'privateKey'
     this.publicKey = 'publicKey'
@@ -11,4 +11,4 @@ class Auth {
   }
 }
 
-module.exports = Auth
+module.exports = Authorization

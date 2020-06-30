@@ -12,13 +12,14 @@ const login = new Login(UserModel)
 router.post('/', async (req, res, next) => {
   const { body } = req
   const { user, password } = body
+  console.log('body :>> ', body);
   const filter = {
     email: user,
     password
   }
   try {
     const existUser = await login.getItem(filter, '-_id email')
-    const token = await jwt.sign({ existUser }, 'Test')
+    const token = await jwt.sign({ ...existUser }, 'Test')
     console.log('token :>> ', token)
     res.send({ token:`Bearer ${token}` })
   } catch (error) {
