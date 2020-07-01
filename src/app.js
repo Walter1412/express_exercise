@@ -6,8 +6,11 @@ var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var stylus = require('stylus')
 var expressJWT = require('express-jwt')
+import Authorization from './routes/classes/instance/authorization'
 // var bodyParser = require('body-parser');
 
+// Classes
+const authorization = new Authorization()
 // Routes
 var indexRouter = require('./routes/index')
 var loginRouter = require('./routes/login')
@@ -33,14 +36,16 @@ app.use(stylus.middleware(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'public')))
 // router middleware
 app.use(
-  expressJWT({ secret: 'Test', resultProperty: 'locals.user' }).unless({
-    path: ['/login']
+  expressJWT({
+    secret: authorization.getKey(),
+    resultProperty: 'locals.user'
+  }).unless({
+    path: ['/login', '/users/signup']
   }),
   function(req, res, next) {
-    const { locals } = res
-    const { user } = locals
-    const { _doc } = user
-    console.log('doc :>> ', _doc)
+    // const { locals } = res
+    // const { user } = locals
+    // const { _doc } = user
     next()
   }
 )

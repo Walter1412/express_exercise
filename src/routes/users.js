@@ -1,4 +1,4 @@
-//
+// Plugins
 var express = require('express')
 var router = express.Router()
 var multer = require('multer')
@@ -6,18 +6,17 @@ var upload = multer()
 var { cloneDeep, omit } = require('lodash')
 import Users from './classes/users'
 
-// Model
+// Models
 var UserModel = require('../models/user')
 
+// Classes
 const users = new Users(UserModel)
 
 router.use((req, res, next) => {
   console.log('Time:', Date.now())
   next()
 })
-
 // get user item
-
 router.get('/item', async (req, res, next) => {
   const { query } = req
   const { email } = query
@@ -30,6 +29,7 @@ router.get('/item', async (req, res, next) => {
 })
 
 // get user list
+
 router.get('/list', async (req, res, next) => {
   try {
     const userList = await users.getList()
@@ -38,9 +38,8 @@ router.get('/list', async (req, res, next) => {
     console.log('error :>> ', chalk.bgRedBright(error))
   }
 })
-
 // 新增user資料透過formdata format
-router.post('/', upload.array(), async (req, res, next) => {
+router.post('/signup', upload.array(), async (req, res, next) => {
   const { body, query } = req
   const item = cloneDeep(body)
   const { email } = item
@@ -51,14 +50,18 @@ router.post('/', upload.array(), async (req, res, next) => {
       res.send('信箱已註冊過')
     } else {
       const createUser = await users.createItem(item)
-      console.log('createUser', createUser)
       res.send('新增成功')
     }
   } catch (error) {
     console.log(chalk.bgRedBright(error))
+    res.send({
+      status: {
+        code: '9999',
+        message: error
+      }
+    })
   }
 })
-
 // 修改user資料
 router.put('/', upload.array(), async (req, res, next) => {
   const { body } = req
@@ -77,7 +80,6 @@ router.put('/', upload.array(), async (req, res, next) => {
     console.log(chalk.bgRedBright(error))
   }
 })
-
 // 刪除user資料
 router.delete('/', function(req, res, next) {
   const { query } = req

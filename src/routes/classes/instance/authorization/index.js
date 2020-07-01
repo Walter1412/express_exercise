@@ -1,5 +1,6 @@
 class Authorization {
   constructor() {
+    this.key = 'key'
     this.privateKey = 'privateKey'
     this.publicKey = 'publicKey'
   }
@@ -8,6 +9,9 @@ class Authorization {
   }
   getPubilcKey() {
     return this.publicKey
+  }
+  getKey() {
+    return this.key
   }
 }
 
