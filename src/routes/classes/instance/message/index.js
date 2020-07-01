@@ -1,7 +1,12 @@
 class Message {
   constructor() {}
-  text() {
-    return 'test'
+  data() {}
+  log(sfunction) {
+    try {
+      sfunction()
+    } catch (error) {
+      console.log('error :>> ', chalk.bgRedBright(error))
+    }
   }
 }
 module.exports = Message
