@@ -1,8 +1,8 @@
 var express = require('express')
 var router = express.Router()
-import jwt from 'jsonwebtoken'
-import Login from './classes/login'
-import Authorization from './classes/instance/authorization'
+var jwt = require('jsonwebtoken')
+var Login = require('./classes/login')
+var Authorization = require('./classes/instance/authorization')
 // Model
 var UserModel = require('../models/user')
 

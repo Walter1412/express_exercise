@@ -4,7 +4,7 @@ var router = express.Router()
 var multer = require('multer')
 var upload = multer()
 var { cloneDeep, omit } = require('lodash')
-import Users from './classes/users'
+var Users = require('./classes/users')
 
 // Models
 var UserModel = require('../models/user')

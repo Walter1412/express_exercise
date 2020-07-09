@@ -1,3 +1,3 @@
-import Basic from './instance/basic'
+var Basic = require('./instance/basic')
 class Login extends Basic {}
 module.exports = Login
