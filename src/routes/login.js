@@ -10,8 +10,15 @@ var UserModel = require('../models/user')
 const login = new Login(UserModel)
 const authorization = new Authorization()
 
-/* POST Json format */
-
+/**
+ * This function comment is parsed by doctrine
+ * @route POST /login
+ * @group Login - Operations about login
+ * @param {string} email.query.required - username or email - eg: user@domain
+ * @param {string} password.query.required - user's password.
+ * @returns {object} 200 - An array of user info
+ * @returns {Error}  default - Unexpected error
+ */
 router.post('/', async (req, res, next) => {
   const { body } = req
   const { user, password } = body
@@ -27,5 +34,15 @@ router.post('/', async (req, res, next) => {
     res.send(error)
   }
 })
+
+/**
+ * This function comment is parsed by doctrine
+ * @route GET /login
+ * @group Login - Operations about login
+ * @param {string} email.query.required - username or email - eg: user@domain
+ * @param {string} password.query.required - user's password.
+ * @returns {object} 200 - An array of user info
+ * @returns {Error}  default - Unexpected error
+ */
 
 module.exports = router

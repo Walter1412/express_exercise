@@ -7,6 +7,7 @@ var logger = require('morgan')
 var stylus = require('stylus')
 var expressJWT = require('express-jwt')
 var Authorization = require('./routes/classes/instance/authorization')
+const expressSwaggerGenerator = require('express-swagger-generator')
 // var bodyParser = require('body-parser');
 
 // Classes
@@ -19,6 +20,32 @@ var usersRouter = require('./routes/users')
 var fileRouter = require('./routes/file')
 
 var app = express()
+const expressSwagger = expressSwaggerGenerator(app)
+
+let options = {
+  swaggerDefinition: {
+    info: {
+      description: 'This is a sample server',
+      title: 'Swagger',
+      version: '1.0.0'
+    },
+    host: 'localhost:3000',
+    basePath: '/v1',
+    produces: ['application/json', 'application/xml'],
+    schemes: ['http', 'https'],
+    securityDefinitions: {
+      JWT: {
+        type: 'apiKey',
+        in: 'header',
+        name: 'Authorization',
+        description: ''
+      }
+    }
+  },
+  basedir: __dirname, //app absolute path
+  files: ['./routes/*.js'] //Path to the API handle folder
+}
+expressSwagger(options)
 
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded());
@@ -38,9 +65,10 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(
   expressJWT({
     secret: authorization.getKey(),
-    resultProperty: 'locals.user'
+    resultProperty: 'locals.user',
+    algorithms: ['HS256']
   }).unless({
-    path: ['/login', '/users/signup']
+    path: ['/login', '/users/signup', /\/api-docs\//i]
   }),
   function (req, res, next) {
     // const { locals } = res

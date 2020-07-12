@@ -81,10 +81,10 @@ router.put('/', upload.array(), async (req, res, next) => {
   }
 })
 // 刪除user資料
-router.delete('/', function(req, res, next) {
+router.delete('/', function (req, res, next) {
   const { query } = req
   const { email } = query
-  UserModel.findOneAndDelete({ email }, function(err, user) {
+  UserModel.findOneAndDelete({ email }, function (err, user) {
     res.send('OK')
   })
 })
