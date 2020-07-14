@@ -11,6 +11,10 @@ const UserSchema = new Schema(
       type: String,
       required: true
     },
+    phone: {
+      type: String,
+      required: true
+    },
     email: {
       type: String,
       required: true
@@ -25,7 +29,7 @@ const UserSchema = new Schema(
     isDelete: {
       type: Boolean,
       default: false
-    },
+    }
   },
   {
     timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },

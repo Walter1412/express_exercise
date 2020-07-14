@@ -9,7 +9,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
-  .then(() => console.log(chalk.bgGreenBright('MongoDB Connected')))
+  .then(() => console.log(chalk.blueBright('MongoDB Connected')))
   .catch(err => console.log(chalk.bgRedBright(err)))
 
 module.exports = mongoose

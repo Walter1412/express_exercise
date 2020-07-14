@@ -27,10 +27,10 @@ let options = {
     info: {
       description: 'This is a sample server',
       title: 'Swagger',
-      version: '1.0.0'
+      version: '0.1.0'
     },
     host: 'localhost:3000',
-    basePath: '/v1',
+    basePath: '/',
     produces: ['application/json', 'application/xml'],
     schemes: ['http', 'https'],
     securityDefinitions: {

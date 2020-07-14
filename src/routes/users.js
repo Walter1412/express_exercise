@@ -5,6 +5,7 @@ var multer = require('multer')
 var upload = multer()
 var { cloneDeep, omit } = require('lodash')
 var Users = require('./classes/users')
+var Message = require('./classes/instance/message')
 
 // Models
 var UserModel = require('../models/user')
@@ -13,7 +14,7 @@ var UserModel = require('../models/user')
 const users = new Users(UserModel)
 
 router.use((req, res, next) => {
-  console.log('Time:', Date.now())
+  console.log('Time:', chalk.bgRed(`Users-${Date.now()}`))
   next()
 })
 // get user item
@@ -38,28 +39,30 @@ router.get('/list', async (req, res, next) => {
     console.log('error :>> ', chalk.bgRedBright(error))
   }
 })
-// 新增user資料透過formdata format
-router.post('/signup', upload.array(), async (req, res, next) => {
-  const { body, query } = req
+/**
+ * 新增user資料透過formdata format
+ * @route POST /users/signup
+ * @group Login - Operations about user123
+ * @param {User.model} signup.body.required
+ * @returns {object} 200 - An array of user info
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/signup', async (req, res, next) => {
+  const { body, baseUrl } = req
   const item = cloneDeep(body)
-  const { email } = item
+  const { email, phone } = item
 
   try {
-    const repeatUser = await users.getItem({ email }, '_id')
-    if (repeatUser) {
-      res.send('信箱已註冊過')
+    const repeatEmail = await users.getItem({ email }, '_id')
+    const repeatPhone = await users.getItem({ phone }, '_id')
+    if (repeatEmail || repeatPhone) {
+      throw new Error('0002')
     } else {
       const createUser = await users.createItem(item)
-      res.send('新增成功')
+      res.send(Message.success()())
     }
   } catch (error) {
-    console.log(chalk.bgRedBright(error))
-    res.send({
-      status: {
-        code: '9999',
-        message: error
-      }
-    })
+    res.send(Message.fail(error, baseUrl)())
   }
 })
 // 修改user資料
